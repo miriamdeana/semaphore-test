@@ -1,0 +1,10 @@
+<h1>Welcome to the CTI app Home Page</h1>
+
+
+<% unless current_user %>
+    <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path %>
+<% else %>
+    <div> <%= image_tag(current_user.image, size: "100x100") %> </div>
+    <div> Hello, <%= current_user.first_name %>! </div>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+<% end %>
