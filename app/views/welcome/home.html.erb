@@ -2,7 +2,8 @@
 
 
 <% unless current_user %>
-    <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path %>
+    <p>Sign in with your CallRail email:</p>
+    <%= link_to image_tag("btn_google_signin_dark_normal_web.png"), user_google_oauth2_omniauth_authorize_path %>
 <% else %>
     <div> <%= image_tag(current_user.image, size: "100x100") %> </div>
     <div> Hello, <%= current_user.first_name %>! </div>
