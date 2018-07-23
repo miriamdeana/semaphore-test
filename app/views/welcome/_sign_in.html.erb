@@ -1,0 +1,11 @@
+
+<div class= 'container-fluid'>
+    <h1 class="login-center">Login</h1>
+    <div class="login-center">
+        <%= image_tag("superheropurplelogo.png", class: "login-center img-fluid") %>
+    </div>
+    <div class="login-center">
+        <p>Sign in with your CallRail email:</p>
+        <%= link_to image_tag("btn_google_signin_dark_normal_web.png"), user_google_oauth2_omniauth_authorize_path %>
+    </div>
+</div>

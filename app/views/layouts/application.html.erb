@@ -8,10 +8,18 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
-  <body>
+<div>
+<%= render 'layouts/header'%>
+</div>
+<body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
-  </body>
+
+    <% if current_user%>
+      <footer>
+      
+      </footer>
+    <% end %>
+</body>
 </html>

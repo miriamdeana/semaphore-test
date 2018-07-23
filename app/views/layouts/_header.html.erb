@@ -1,0 +1,12 @@
+<% if current_user%>
+      <header class="navbar navbar-fixed-top">
+        <nav>
+          <%= image_tag("superherowhitelogo.png", class: "img-fluid")%>
+          <ul class="nav navbar-nav navbar-right">
+            
+            <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+            
+          </ul>
+        </nav>
+      </header>
+<% end%>
