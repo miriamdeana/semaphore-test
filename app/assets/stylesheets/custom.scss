@@ -24,14 +24,16 @@ header {
 
         a {
             float: right;
-            margin: 10px;
+            margin: 20px;
             font-size: 1.5em;
             color: #fff;
+            transition: 0.5s;
+            text-decoration: none;
         }
-
-        li {
-            position: fixed;
-            float: right;
+        a:hover {
+            background-color: #fff;
+            color: #6457A6;
+            text-decoration: none;
         }
 }
 
