@@ -12,8 +12,7 @@
 <%= render 'layouts/header'%>
 </div>
 <body>
-    <p class="notice alert-success"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <%= render 'layouts/messages' %>
     <%= yield %>
 
     <% if current_user%>

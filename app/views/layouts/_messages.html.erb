@@ -1,0 +1,10 @@
+<% flash.each do |name, msg| %>
+  <div class="alert alert-<%= name %>">
+    <a href="#" data-dismiss="alert" class="close">×</a>
+      <ul>
+        <li>
+          <%= msg %>
+        </li>
+      </ul>
+  </div>
+<% end %>
