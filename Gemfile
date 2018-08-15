@@ -62,5 +62,7 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'bootstrap-sass'
 gem 'jquery-rails'
-
+gem 'sidekiq'
+gem 'sinatra', github: 'sinatra/sinatra'
+gem 'httparty'
 
