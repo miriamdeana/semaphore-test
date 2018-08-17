@@ -1,3 +1,5 @@
+require 'callrail_api'
+
 class CallsController < ApplicationController
   protect_from_forgery with: :null_session
   def create

@@ -21,8 +21,7 @@ ActiveRecord::Schema.define(version: 2018_09_04_141358) do
     t.string "caller_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "answered"
-    t.string "formatted_caller_number"
+    t.string "answered"
   end
 
   create_table "users", force: :cascade do |t|
