@@ -43,6 +43,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'pry-rails'
 end
 
 group :development do
@@ -63,6 +64,7 @@ gem 'omniauth-google-oauth2'
 gem 'bootstrap-sass'
 gem 'jquery-rails'
 gem 'sidekiq'
-gem 'sinatra', github: 'sinatra/sinatra'
+gem 'sinatra', github: 'sinatra/sinatra' #required for sidekiq ui
+gem 'rack-protection', '~> 2.0', '>= 2.0.3'
 gem 'httparty'
 
