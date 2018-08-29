@@ -1,37 +1,24 @@
 require "rails_helper"
 
-RSpec.describe User, :type => :model do
-  
-  before(:all) do
-    @user1 = create(:user)
-  end
-  
-  it "is valid with valid attributes" do
-    expect(@user1).to be_valid
-  end
-  
-  it "has a unique username" do
-    user2 = build(:user, email: "bob@gmail.com")
-    expect(user2).to_not be_valid
-  end
-  
-  it "has a unique email" do
-    user2 = build(:user, username: "Bob")
-    expect(user2).to_not be_valid
-  end
-  
-  it "is not valid without a password" do 
-    user2 = build(:user, password: nil)
-    expect(user2).to_not be_valid
-  end
-  
-  it "is not valid without a username" do 
-    user2 = build(:user, username: nil)
-    expect(user2).to_not be_valid
-  end
-  
-  it "is not valid without an email" do
-    user2 = build(:user, email: nil)
-    expect(user2).to_not be_valid
-  end
+RSpec.describe User, type: :model do
+
+    before(:all) do
+        @user1 = create(:user)
+    end
+
+    describe "validations" do
+        it "is valid with valid attributes" do
+            expect(@user1).to be_valid
+        end
+
+        it "is invalid if email doesn't end in @callrail.com" do 
+            @user2 = User.new(first_name: "Melissa", last_name: "Kerns", email: "melissa@gmail.com", password: "abcd1234")
+            expect(@user2).to be_invalid
+        end
+
+        it "should have a unique email address" do 
+            @user2 = User.new(first_name: "Melissa", last_name: "Kerns", email: @user1.email, password: "1234abcd")
+            expect(@user2).to be_invalid
+        end
+    end
 end
