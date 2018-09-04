@@ -39,9 +39,3 @@ RSpec.describe Users::OmniauthCallbacksController, type: :feature do
     end
   end
 end
-
-# Does the controller redirect to the expected view or render the expected template?
-# Does the controller give the appropriate http response code?
-# What type of content should we respond with?
-# Does the controller need to render flash messages?
-# Was any information added/updated/deleted? 
