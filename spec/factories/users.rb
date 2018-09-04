@@ -1,5 +1,4 @@
 FactoryBot.define do
-
     factory :user do
         email {"user@callrail.com"}
         first_name {"Melissa"}
@@ -7,3 +6,4 @@ FactoryBot.define do
         password {"1234abcd"}
     end
 end
+
