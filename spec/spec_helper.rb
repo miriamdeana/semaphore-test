@@ -97,7 +97,3 @@ RSpec.configure do |config|
 =end
 
 end
-
-def invalid_email_stub_omniauth
-  email = "user@gmail.com"
-end
