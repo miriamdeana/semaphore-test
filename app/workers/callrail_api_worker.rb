@@ -11,7 +11,6 @@ class CallrailApiWorker
 
     if tags.blank?
       if answered || answered.nil?
-        puts "#{answered}, #{tags}"
         CallrailApiWorker.perform_in(5.seconds, callrail_id)
       end
 
@@ -19,7 +18,6 @@ class CallrailApiWorker
       if answered
         #NEXT STEP: Figure out who the agent is
       elsif answered.nil?
-        puts "#{answered}, #{tags}"
         CallrailApiWorker.perform_in(5.seconds, callrail_id)
       end
     end
