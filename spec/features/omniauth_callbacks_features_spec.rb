@@ -5,14 +5,6 @@ RSpec.describe Users::OmniauthCallbacksController, type: :feature do
   let(:user) { create(:user) }
 
   describe "user login" do
-    it "valid login is successful" do
-      stub_omniauth
-      visit root_path
-      click_link "google-oauth2-login"
-      expect(page).to have_http_status(:success)
-    end
-
-
     it "shows user to welcome page on valid login" do
       stub_omniauth
       visit root_path
