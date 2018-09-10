@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Users::OmniauthCallbacksController, type: :feature do
+RSpec.describe Users::OmniauthCallbacksController do
 
   let(:user) { create(:user) }
 
@@ -26,7 +26,6 @@ RSpec.describe Users::OmniauthCallbacksController, type: :feature do
       login_as user
       visit root_path
       click_link "Logout"
-      expect(page).to have_http_status(:success)
       expect(page).to have_content("Signed out successfully.")
     end
   end

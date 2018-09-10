@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Users::OmniauthCallbacksController, type: :request do
+RSpec.describe Users::OmniauthCallbacksController do
 
 
   describe "user login" do
