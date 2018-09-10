@@ -14,7 +14,7 @@ class PipeHostRewriter
   end
 
   def call(env)
-    if env['HTTP_X_ORIGINAL_HOST']
+    if env['PATH_INFO'] != '/sidekiq' && env['HTTP_X_ORIGINAL_HOST']
       env['HTTP_HOST'] = env['HTTP_X_ORIGINAL_HOST']
     end
 
