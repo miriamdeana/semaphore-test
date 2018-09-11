@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2018_09_04_141358) do
     t.string "caller_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "answered"
+    t.text "answered"
     t.string "formatted_caller_number"
   end
 
