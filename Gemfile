@@ -44,6 +44,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'pry-rails'
+  gem 'webmock'
   gem 'simplecov'
 end
 

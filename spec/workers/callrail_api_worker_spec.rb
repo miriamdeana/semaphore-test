@@ -3,20 +3,27 @@ require "rails_helper"
 RSpec.describe CallrailApiWorker do
   before(:each) do
     Sidekiq::Worker.clear_all
+    stub_request(:get, "https://api.callrail.com/v2/a/266101466/calls/1234.json?fields=tags").
+                with(:body => callrail_api_response,
+                      :headers => { "Authorization" => "Token token=#{Rails.application.credentials.callrail_api_key}" })
   end
 
-  let(:callrail_id) { 1234 }
-  let(:api_response) { CallrailApi.new(callrail_id).get_call }
+  let(:callrail_id) { "1234" }
+  let(:worker) { CallrailApiWorker.new }
+  let(:callrail_api_response) {
+    { 
+      "answered": false
+    }
+  }
 
-  describe "CallRail API Worker" do
-    it "should create a job in the queue with a callrail_id" do
-      expect {
-        CallrailApiWorker.perform_async(callrail_id)    
-      }.to change(CallrailApiWorker.jobs, :size).by(1)
-    end
-
-    it "should return json for a successful API ping with call_id" do
-      expect(api_response.content_type).to eq "application/json"
-    end
+  it "should" do
+    allow(worker).to receive(:ping_api).and_return(callrail_api_response)
+    # expect(worker).to receive(:ping_api).and_return(callrail_api_response)
+    # Sidekiq::Testing.inline! do
+      worker.perform("1234")
+      # assert_equal 1, CallrailApiWorker.jobs.size
+      # CallrailApiWorker.drain
+      # assert_equal 0, CallrailApiWorker.jobs.size
+    # end
   end
 end
