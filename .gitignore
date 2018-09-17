@@ -19,6 +19,9 @@
 # Ignore redis dump file
 dump.rdb
 
+# Ignore DS_Store files
+.DS_Store
+
 # Ignore uploaded files in development
 /storage/*
 

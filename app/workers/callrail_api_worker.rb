@@ -11,7 +11,7 @@ class CallrailApiWorker
     counter = 1
 
     loop do
-      if (tags.blank? && answered.nil?) || ((! tags.blank?) && (tags[0]["name"] == "Support" || tags[0]["name"] == "Billing") && answered.nil?)
+      if (tags.blank? && answered.nil?) || ((! tags.blank?) && (tags.include? "Support") && answered.nil?)
         api = ping_api(callrail_id)
         tags = api["tags"]
         answered = api["answered"]
@@ -23,7 +23,7 @@ class CallrailApiWorker
       end
     end
 
-    if (! tags.blank?) &&(tags[0]["name"] == "Support" || tags[0]["name"] == "Billing") && answered
+    if (! tags.blank?) &&(tags.include? "Support") && answered
       #do cti stuff
     end
   end
