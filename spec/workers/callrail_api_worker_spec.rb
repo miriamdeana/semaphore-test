@@ -23,7 +23,7 @@ RSpec.describe CallrailApiWorker do
       "recording"=>nil,
       "recording_duration"=>nil,
       "recording_player"=>nil,
-      "start_time"=>"2018-09-16T14:59:53.250-04:00",
+      "start_time"=>Time.now,
       "tracking_phone_number"=>"+15555555555",
       "voicemail"=>false,
       "tags"=> tags
@@ -36,18 +36,21 @@ RSpec.describe CallrailApiWorker do
     let(:tags) { [] }
     
     it "should continue to ping the api" do
-      allow(worker).to receive(:loop).and_yield.and_yield
-      expect(worker).to receive(:sleep).with(5).twice
-      worker.perform("1234")
+      allow(worker).to receive(:ping_api).and_return(subject)
+      expect(CallrailApiWorker).to receive(:perform_in).with(5.seconds, 1234)
+      worker.perform(1234)
     end
   end
 
   context "call is not tagged Support" do
     let(:answered) { nil }
-    let(:tags) { [{"name"=>"Sales"}] }
+    let(:tags) { [{"name"=>"Sales"}].to_json }
 
-    it "should stop immediately" do
-      worker.perform("1234")
+    it "should stop and not call any more jobs" do
+      CallrailApiWorker.perform_async("1234")
+      assert_equal 1, CallrailApiWorker.jobs.size
+      CallrailApiWorker.drain
+      assert_equal 0, CallrailApiWorker.jobs.size
     end
   end
 
@@ -56,9 +59,9 @@ RSpec.describe CallrailApiWorker do
     let(:tags) { [{"name"=>"Support"}].to_json }
 
     it "should continue to ping the api" do
-      allow(worker).to receive(:loop).and_yield.and_yield
-      expect(worker).to receive(:sleep).with(5).twice
-      worker.perform("1234")
+      allow(worker).to receive(:ping_api).and_return(subject)
+      expect(CallrailApiWorker).to receive(:perform_in).with(5.seconds, 1234)
+      worker.perform(1234)
     end
   end
 
@@ -75,8 +78,11 @@ RSpec.describe CallrailApiWorker do
     let(:answered) { false }
     let(:tags) { [] }
 
-    it "should stop immediately" do
-      worker.perform("1234")
+    it "should stop and not call any more jobs" do
+      CallrailApiWorker.perform_async("1234")
+      assert_equal 1, CallrailApiWorker.jobs.size
+      CallrailApiWorker.drain
+      assert_equal 0, CallrailApiWorker.jobs.size
     end
   end
   

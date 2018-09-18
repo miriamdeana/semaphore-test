@@ -1,30 +1,29 @@
+
 require 'callrail_api'
 
 class CallrailApiWorker
 	include Sidekiq::Worker
-  sidekiq_options retry: false
+	sidekiq_options retry: false
 
-  def perform(callrail_id)
-    api = ping_api(callrail_id)
-    tags = api["tags"]
+	def perform(callrail_id)
+		api = ping_api(callrail_id)
+		tags = api["tags"]
     answered = api["answered"]
-    counter = 1
+    start_time = api["start_time"].to_datetime
+    
+    if Time.now.iso8601 < start_time + 2.minutes
+      if tags.blank?
+        if answered.nil?
+          CallrailApiWorker.perform_in(5.seconds, callrail_id)
+        end
 
-    loop do
-      if (tags.blank? && answered.nil?) || ((! tags.blank?) && (tags.include? "Support") && answered.nil?)
-        api = ping_api(callrail_id)
-        tags = api["tags"]
-        answered = api["answered"]
-        puts "#{api}, #{counter}, #{answered}, #{tags}"
-        counter +=1
-        sleep 5
-      else
-        break
+      elsif tags.include? "Support"
+        if answered
+          #NEXT STEP: Figure out who the agent is
+        elsif answered.nil?
+          CallrailApiWorker.perform_in(5.seconds, callrail_id)
+        end
       end
-    end
-
-    if (! tags.blank?) &&(tags.include? "Support") && answered
-      #do cti stuff
     end
   end
   
