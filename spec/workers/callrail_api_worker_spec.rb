@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe CallrailApiWorker do
   before(:each) do
@@ -8,7 +8,7 @@ RSpec.describe CallrailApiWorker do
                 to_return(status: 200, body: subject.to_json, headers:{})
   end 
 
-  subject {
+ subject {
     {
       "answered"=> answered,
       "business_phone_number"=>nil,
@@ -26,64 +26,92 @@ RSpec.describe CallrailApiWorker do
       "start_time"=>Time.now,
       "tracking_phone_number"=>"+15555555555",
       "voicemail"=>false,
-      "tags"=> tags
+      "tags"=> tags,
+      "agent_email"=> agent_email
     }
-  }
+  } 
+
   let(:worker) { CallrailApiWorker.new }
+  let!(:call) { Call.create!(callrail_id: 1234) }
 
-  context "answered = nil and tags []" do
+  def stub_worker
+    allow(worker).to receive(:ping_api).and_return(subject)
+  end
+
+  context 'when answered = nil' do
     let(:answered) { nil }
-    let(:tags) { [] }
-    
-    it "should continue to ping the api" do
-      allow(worker).to receive(:ping_api).and_return(subject)
-      expect(CallrailApiWorker).to receive(:perform_in).with(5.seconds, 1234)
-      worker.perform(1234)
+    let(:agent_email) { nil }
+
+    context 'with no tags' do
+      let(:tags) { [] }
+      
+      it 'should continue to ping the api' do
+        stub_worker
+        expect(CallrailApiWorker).to receive(:perform_in).with(5.seconds, 1234)
+        worker.perform(1234)
+      end
+
+      it 'should have answered and agent_email as nil in call model' do
+        stub_worker
+        worker.perform(1234)
+        call.reload
+        expect(call.answered).to eq(nil)
+        expect(call.agent_email).to eq(nil)
+      end
+    end
+
+    context 'call is not tagged Support' do
+      let(:tags) { [{"name"=>"Sales"}].to_json }
+
+      it 'should stop and not call any more jobs' do
+        stub_worker
+        expect(CallrailApiWorker).to_not receive(:perform_in).with(5.seconds, 1234)
+        worker.perform(1234)
+      end
+    end
+
+    context 'call is tagged Support' do
+      let(:tags) { [{"name"=>"Support"}].to_json }
+
+      it "should continue to ping the api" do
+        stub_worker
+        expect(CallrailApiWorker).to receive(:perform_in).with(5.seconds, 1234)
+        worker.perform(1234)
+      end
     end
   end
 
-  context "call is not tagged Support" do
-    let(:answered) { nil }
-    let(:tags) { [{"name"=>"Sales"}].to_json }
-
-    it "should stop and not call any more jobs" do
-      CallrailApiWorker.perform_async("1234")
-      assert_equal 1, CallrailApiWorker.jobs.size
-      CallrailApiWorker.drain
-      assert_equal 0, CallrailApiWorker.jobs.size
-    end
-  end
-
-  context "answered = nil and call is tagged Support" do
-    let(:answered) { nil }
-    let(:tags) { [{"name"=>"Support"}].to_json }
-
-    it "should continue to ping the api" do
-      allow(worker).to receive(:ping_api).and_return(subject)
-      expect(CallrailApiWorker).to receive(:perform_in).with(5.seconds, 1234)
-      worker.perform(1234)
-    end
-  end
-
-  # context "answered = true and call is tagged Support" do
-  #   let(:answered) { true }
-  #   let(:tags) { [{"name"=>"Support"}] }
-
-  #   it "should do CTI stuff" do
-  #     #stuff goes here
-  #   end
-  # end
-
-  context "answered = false" do
+  context 'when answered = false' do
     let(:answered) { false }
     let(:tags) { [] }
+    let(:agent_email) { nil }
 
-    it "should stop and not call any more jobs" do
-      CallrailApiWorker.perform_async("1234")
-      assert_equal 1, CallrailApiWorker.jobs.size
-      CallrailApiWorker.drain
-      assert_equal 0, CallrailApiWorker.jobs.size
+    it 'should stop and not call any more jobs' do
+      stub_worker
+      expect(CallrailApiWorker).to_not receive(:perform_in).with(5.seconds, 1234)
+      worker.perform(1234)
+    end
+
+    it 'should have answered and agent_email as nil in call model' do
+      stub_worker
+      worker.perform(1234)
+      call.reload
+      expect(call.answered).to eq(nil)
+      expect(call.agent_email).to eq(nil)
     end
   end
-  
+
+  context 'answered = true and call is tagged Support' do
+    let(:answered) { true }
+    let(:tags) { [{"name"=>"Support"}].to_json }
+    let(:agent_email) { "user@callrail.com" }
+
+    it 'should save the agent_email and change answered status in call model' do
+      stub_worker
+      worker.perform(1234)
+      call.reload
+      expect(call.answered).to eq("true")
+      expect(call.agent_email).to eq("user@callrail.com")
+    end
+  end
 end
