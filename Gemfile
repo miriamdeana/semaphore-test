@@ -43,6 +43,9 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'pry-rails'
+  gem 'webmock'
+  gem 'simplecov'
 end
 
 group :development do
@@ -62,5 +65,8 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'bootstrap-sass'
 gem 'jquery-rails'
-
+gem 'sidekiq'
+gem 'sinatra', github: 'sinatra/sinatra' #required for sidekiq ui
+gem 'rack-protection', '~> 2.0', '>= 2.0.3'
+gem 'httparty'
 
