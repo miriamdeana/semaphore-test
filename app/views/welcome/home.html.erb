@@ -1,11 +1,11 @@
-
-
-
 <% unless current_user %>
     <%= render 'sign_in' %>
 <% else %>
     <div class="container">
-    
+      <div id="caller-information">
+      
         <div> Hello, <%= current_user.first_name %>! </div>
+
+      </div>
     </div>
 <% end %>

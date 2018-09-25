@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CallrailApiWorker do
   before(:each) do
     Sidekiq::Worker.clear_all
-    stub_request(:get, "https://api.callrail.com/v2/a/266101466/calls/1234.json?fields=tags").
+    stub_request(:get, "https://api.callrail.com/v2/a/266101466/calls/1234.json?fields=tags,agent_email").
                 with(:headers => { "Authorization" => "Token token=#{Rails.application.credentials.callrail_api_key}" }).
                 to_return(status: 200, body: subject.to_json, headers:{})
   end 
@@ -61,7 +61,7 @@ RSpec.describe CallrailApiWorker do
     end
 
     context 'call is not tagged Support' do
-      let(:tags) { [{"name"=>"Sales"}].to_json }
+      let(:tags) { [{"name"=>"Sales"}] }
 
       it 'should stop and not call any more jobs' do
         stub_worker
@@ -71,7 +71,7 @@ RSpec.describe CallrailApiWorker do
     end
 
     context 'call is tagged Support' do
-      let(:tags) { [{"name"=>"Support"}].to_json }
+      let(:tags) { [{"name"=>"Support"}] }
 
       it "should continue to ping the api" do
         stub_worker
@@ -103,7 +103,7 @@ RSpec.describe CallrailApiWorker do
 
   context 'answered = true and call is tagged Support' do
     let(:answered) { true }
-    let(:tags) { [{"name"=>"Support"}].to_json }
+    let(:tags) { [{"name"=>"Support"}] }
     let(:agent_email) { "user@callrail.com" }
 
     it 'should save the agent_email and change answered status in call model' do
