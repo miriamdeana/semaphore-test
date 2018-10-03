@@ -46,6 +46,7 @@ group :development, :test do
   gem 'action-cable-testing'
   gem 'simplecov'
   gem 'selenium-webdriver'
+  gem 'zendesk_api'
 end
 
 group :development do

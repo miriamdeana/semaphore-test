@@ -6,6 +6,6 @@ App.calls = App.cable.subscriptions.create('CallChannel', {
   },
 
   received: function(data) {
-    document.querySelector('#caller-information').innerHTML = data
+    $('#caller-information').html(data.known_users)
   }
 });

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Users::OmniauthCallbacksController do
-
   let(:user) { create(:user) }
 
   describe 'user login' do
