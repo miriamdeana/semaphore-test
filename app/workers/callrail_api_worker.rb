@@ -17,7 +17,7 @@ class CallrailApiWorker
           CallrailApiWorker.perform_in(5.seconds, callrail_id)
         end
 
-      elsif tags.include? "Support"
+      elsif tags.any? {|x| x["name"] == "Support"}
         if answered
           call.update_attributes!(answered: "true", agent_email: api["agent_email"])
         elsif answered.nil?
