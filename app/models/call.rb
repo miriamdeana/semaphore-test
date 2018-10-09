@@ -16,7 +16,12 @@ class Call < ApplicationRecord
   private
   def zendesk_users_data
     find_by_phone = Zendesk.client.users.search(:query => "*#{formatted_caller_number}")
-    return find_by_phone.map(&:name)
+    return find_by_phone.map do |i|
+      {
+        "name" => i["name"],
+        "email" => i["email"]
+      }
+    end
   end
 
   def render_known_users(formatted_caller_number, names_found)
