@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CallsController, type: :request do
+RSpec.describe CallsController do
 
   let(:ping_webhook) { post "/calls", :params => { :callrail_id => "1234" } }
 
