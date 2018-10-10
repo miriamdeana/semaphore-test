@@ -15,12 +15,13 @@ class Call < ApplicationRecord
 
   private
   def zendesk_users_data
-    find_by_phone = Zendesk.client.users.search(:query => "*#{formatted_caller_number}")
-    return find_by_phone.map do |i|
-      {
-        "name" => i["name"],
-        "email" => i["email"]
-      }
+    query = Zendesk.client.users.search(:query => "*#{formatted_caller_number}")
+    find_by_phone = query.fetch
+    return find_by_phone.map do |user|
+    {
+      "name" => user["name"],
+      "email" => user["email"]
+    }
     end
   end
 
