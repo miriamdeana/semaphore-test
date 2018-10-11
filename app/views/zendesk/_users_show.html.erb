@@ -8,3 +8,13 @@
     <% end %>
   </ul>
 <% end %>
+
+<script>
+  $(window).on('beforeunload', function(){
+    if(confirm()){
+      return true;
+    }
+    else
+      return false;
+    });
+</script>
