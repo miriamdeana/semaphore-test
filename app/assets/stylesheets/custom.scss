@@ -1,8 +1,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-
-
 /* Login Page */
 
 .login-center {
@@ -50,7 +48,7 @@ footer {
     width: 100%;
 }
 
-/*flash*/
+/* flash */
 .alert-error {
     background-color: #f2dede;
     border-color: #eed3d7;
@@ -77,4 +75,17 @@ footer {
     border-color: #d6e9c6;
     color: #468847;
     text-align: left;
+ }
+
+ /* body */
+ h1 {
+   color: #362247 !important;
+   margin-bottom: 15px !important;
+   font-size: 2em !important;
+   font-weight: bold !important;
+ }
+
+ th {
+   font-weight: bold;
+   font-size: 1.3em;
  }

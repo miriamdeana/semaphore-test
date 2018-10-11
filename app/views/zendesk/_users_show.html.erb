@@ -1,12 +1,23 @@
 <% if names_found.empty? %>
-  <b>No users with <%= formatted_caller_number %></b>
+  <h1>No users with <%= formatted_caller_number %></h1>
 <% else %>
-    <b>Users with <%= formatted_caller_number %></b>
-  <ul>
-    <% names_found.each do |i| %>
-      <li><%= i %></li>
-    <% end %>
-  </ul>
+    <h1>Users with <%= formatted_caller_number %></h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% names_found.each do |i| %>
+          <tr>
+            <td><a href="#"><%= i["name"] %></a></td>
+            <td><%= i["email"] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 <% end %>
 
 <script>
