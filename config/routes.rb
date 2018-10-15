@@ -8,4 +8,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   root to: 'welcome#home'
 
+  namespace :zendesk do
+    get 'users/email_lookup' => 'users#email_lookup'
+  end
 end
