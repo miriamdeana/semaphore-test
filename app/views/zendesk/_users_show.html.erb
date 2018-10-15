@@ -1,31 +1,46 @@
 <% if names_found.empty? %>
   <h1>No users with <%= formatted_caller_number %></h1>
 <% else %>
-    <h1>Users with <%= formatted_caller_number %></h1>
-    <table class="table table-striped">
-      <thead>
+  <h1>Users with <%= formatted_caller_number %></h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% names_found.each do |i| %>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
+          <td><a href="#"><%= i["name"] %></a></td>
+          <td><%= i["email"] %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% names_found.each do |i| %>
-          <tr>
-            <td><a href="#"><%= i["name"] %></a></td>
-            <td><%= i["email"] %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
+
+<div class="search-by-email-form">
+  <%= form_with url: "/", method: 'get' do |form| %>
+    <div class="row">
+      <div class="col-sm-10">
+        <%= form.text_field :email, placeholder: "user@example.com", class: "input-form" %>
+      </div>
+      <div class="col-sm-2">
+        <%= form.submit "Lookup by Email", class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
 
 <script>
   $(window).on('beforeunload', function(){
     if(confirm()){
       return true;
-    }
-    else
+    } else {
       return false;
-    });
+    }
+  });
 </script>
+
+
