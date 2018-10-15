@@ -6,8 +6,16 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+```
+rbenv install 2.5.1
+rbenv local
+gem install bundler
+```
 
 * System dependencies
+```
+bundle install
+```
 
 * Configuration
 

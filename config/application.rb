@@ -19,6 +19,9 @@ Bundler.require(*Rails.groups)
 
 module Cti
   class Application < Rails::Application
+    # Overload any ENV vars using `secrets.env`
+    Dotenv.overload(File.join(Rails.root, 'config', 'secrets.env'))
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 

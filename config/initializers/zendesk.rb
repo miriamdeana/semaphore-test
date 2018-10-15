@@ -6,9 +6,9 @@ module Zendesk
       # Mandatory:
       config.url = "https://callrail1472494564.zendesk.com/api/v2"
       # Basic / Token Authentication
-      config.username = Rails.application.credentials.zendesk_username
+      config.username = ENV['ZENDESK_USERNAME'];
       # # Choose one of the following depending on your authentication choice
-      config.token = Rails.application.credentials.zendesk_token
+      config.token = ENV['ZENDESK_TOKEN'];
       # config.password = "your zendesk password"
 
       # Retry uses middleware to notify the user
