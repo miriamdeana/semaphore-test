@@ -15,21 +15,21 @@ class Call < ApplicationRecord
 
   private
   def zendesk_users_data
-    query = Zendesk.client.users.search(:query => "*#{formatted_caller_number}")
-    find_by_phone = query.fetch
+    find_by_phone = Zendesk.client.users.search(:query => "*#{formatted_caller_number}")
     return find_by_phone.map do |user|
     {
-      "name" => user["name"],
-      "email" => user["email"]
+      "name" => user.name,
+      "email" => user.email,
+      "phone" => user.phone
     }
     end
   end
 
-  def render_known_users(formatted_caller_number, names_found)
+  def render_known_users(formatted_caller_number, users_found)
     ApplicationController.render(
       partial: 'zendesk/users_show',
       locals: { 
-        names_found: names_found,
+        users_found: users_found,
         formatted_caller_number: formatted_caller_number
       }
     )

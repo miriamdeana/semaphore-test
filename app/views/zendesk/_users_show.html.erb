@@ -1,4 +1,4 @@
-<% if names_found.empty? %>
+<% if users_found.empty? %>
   <h1>No users with <%= formatted_caller_number %></h1>
 <% else %>
   <h1>Users with <%= formatted_caller_number %></h1>
@@ -7,13 +7,15 @@
       <tr>
         <th>Name</th>
         <th>Email</th>
+        <th>Phone</th>
       </tr>
     </thead>
     <tbody>
-      <% names_found.each do |i| %>
+      <% users_found.each do |user| %>
         <tr>
-          <td><a href="#"><%= i["name"] %></a></td>
-          <td><%= i["email"] %></td>
+          <td><a href="#"><%= user["name"] %></a></td>
+          <td><%= user["email"] %></td>
+          <td><%= user["phone"] %></td>
         </tr>
       <% end %>
     </tbody>
