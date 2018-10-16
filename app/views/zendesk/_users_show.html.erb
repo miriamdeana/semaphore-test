@@ -21,7 +21,7 @@
 <% end %>
 
 <div class="search-by-email-form">
-  <%= form_with url: "/", method: 'get' do |form| %>
+  <%= form_with url: "/zendesk/users/email_lookup", method: 'get' do |form| %>
     <div class="row">
       <div class="col-sm-10">
         <%= form.text_field :email, placeholder: "user@example.com", class: "input-form" %>
