@@ -7,18 +7,27 @@ RSpec.describe CallChannel do
   end
 
   let(:user) { create(:user) }
-  let!(:call) { Call.create!(
+  let(:call) { Call.create!(
     callrail_id: 1234,
     caller_number: "+15555555555",
     formatted_caller_number: "555-555-5555"
     )}
 
+  def update_call
+    login_as user
+    visit root_path
+    page.find(".channelConnect")
+    call.update_attributes!(answered: "true", agent_email: "user@callrail.com")
+  end
+
   context 'current user answers the call' do
-    it 'changes the screen', js: true do
-      login_as user
-      visit root_path
-      call.update_attributes!(answered: "true", agent_email: "user@callrail.com")
+    it 'changes the screen', :aggregate_failures, js: true do
+      update_call
       expect(page).to_not have_content("Hello, #{user.first_name}!")
+      expect(page).to have_field("search")
+      fill_in 'search', with: 'user@email.com'
+      click_button 'Lookup by Email'
+      expect(page).to have_content("user@email.com")
     end
   end
 

@@ -24,11 +24,6 @@ RSpec.describe Call do
         expect(ActionCable.server).to receive(:broadcast)
         call.update_attributes!(answered: "true", agent_email: "user@callrail.com")
       end
-
-      it 'queries Zendesk API after update' do
-        expect(Zendesk).to receive_message_chain("client.users.search") { [] }
-        call.update_attributes!(answered: "true", agent_email: "user@callrail.com")
-      end
     end
 
     context 'answered and agent_email do not start off as nil' do

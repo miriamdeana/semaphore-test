@@ -9,6 +9,6 @@ Rails.application.routes.draw do
   root to: 'welcome#home'
 
   namespace :zendesk do
-    get 'users/email_lookup' => 'users#email_lookup'
+    get 'users/search_results'
   end
 end
