@@ -1,11 +1,12 @@
 App.calls = App.cable.subscriptions.create('CallChannel', {
   connected: function() {
+    $('body').addClass('channelConnect')
   },
 
   disconnected: function() {
   },
 
   received: function(data) {
-    $('#caller-information').html(data.known_users)
+    window.location = '/zendesk/users/search_results?search=*' + data.search_param
   }
 });
