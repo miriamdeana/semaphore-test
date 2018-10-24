@@ -5,12 +5,18 @@ class Zendesk::UsersController < ApplicationController
   end
 
   def get_zendesk_users
-    @users_found = Zendesk.client.users.search(:query => @search_param).map do |user|
+    @users_found = Zendesk.client.users.search(:query => @search_param, :include => :identities).map do |user|
       {
         "name" => user.name,
         "email" => user.email,
-        "phone" => user.phone
+        "phone" => list_phone_numbers(user)
       }
     end
+  end
+
+  def list_phone_numbers(user)
+    numbers = user.identities.map{ |id| id.value if id.type == 'phone_number' }.compact
+    numbers << user.phone unless numbers.include?(user.phone)
+    numbers.join(', ')
   end
 end

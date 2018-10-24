@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CallChannel do
   before(:each) do
-    stub_request(:get, "https://callrail1472494564.zendesk.com/api/v2/users/search?query=*555-555-5555").
+    stub_request(:get, %r{/api/v2/users/search}).
          to_return(status: 200, body: "", headers: {})
   end
 

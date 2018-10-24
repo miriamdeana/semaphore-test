@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Call do
   before(:each) do
-    stub_request(:get, "https://callrail1472494564.zendesk.com/api/v2/users/search?query=*#{call.formatted_caller_number}").
+    stub_request(:get, "api/v2/users/search").
          to_return(status: 200, body: "", headers: {})
   end
   
