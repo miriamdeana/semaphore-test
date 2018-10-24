@@ -88,10 +88,16 @@ th {
   font-size: 1.3em;
 }
 
+/* forms */
 .search-by-email-form {
   width: 80%;
   text-align: center;
   margin: 30px auto 0 auto;
+}
+
+label {
+  text-align: right;
+  font-size: 16px;
 }
 
 .input-form {
