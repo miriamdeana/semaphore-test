@@ -9,4 +9,7 @@ class Zendesk::TicketsController < ApplicationController
     end
     @number = Call.order(:updated_at).where(:agent_email => current_user.email).last.formatted_caller_number
   end
+
+  def create
+  end
 end

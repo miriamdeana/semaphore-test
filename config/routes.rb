@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   namespace :zendesk do
     get 'users/search_results'
     get 'tickets/new'
+    post 'tickets/create'
   end
 end
