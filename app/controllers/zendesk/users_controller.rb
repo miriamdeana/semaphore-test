@@ -7,6 +7,7 @@ class Zendesk::UsersController < ApplicationController
   def get_zendesk_users
     @users_found = Zendesk.client.users.search(:query => @search_param, :include => :identities).map do |user|
       {
+        "id" => user.id,
         "name" => user.name,
         "email" => user.email,
         "phone" => list_phone_numbers(user)

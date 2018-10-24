@@ -5,7 +5,7 @@ RSpec.describe CallrailApiWorker do
     Sidekiq::Worker.clear_all
     stub_request(:get, "https://api.callrail.com/v2/a/266101466/calls/1234.json?fields=tags,agent_email").
                 with(:headers => { "Authorization" => "Token token=#{Rails.application.credentials.callrail_api_key}" }).
-                to_return(status: 200, body: subject.to_json, headers:{})
+                to_return(status: 200, body: '', headers:{})
   end
 
  subject {
