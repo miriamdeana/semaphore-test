@@ -1,5 +1,11 @@
 <div class='container'>
-  <h1>New Ticket</h1>
+  <h1><%= @name %></h1>
+  <p>
+    <b>User Email:</b> <%= @email %><br>
+    <b>Calling from:</b> <%= @number %><br>
+  </p>
+
+  <h2>Create New Ticket</h2>
 
   <%= form_with url: '/zendesk/tickets/create', method: 'post', class: 'form-horizontal', local: true do |form| %>
     <div class='form-group'>
