@@ -29,10 +29,26 @@
       </table>
   <% end %>
 
+  <table class='table'>
+    <tr class='info note'>
+      <td class='text-center'>
+        <% if params[:email_searched] == 'submitted' %>
+          Caller still not found?
+          <strong>
+            <%= link_to 'Create a new ticket', zendesk_tickets_new_path(:email => @search_param) %>
+           </strong>
+        <% else %>
+          If the caller you're looking for is not listed on this page, use the search bar below to look up a user by email
+        <% end %>
+      </td>
+    </tr>
+  </table>
+
   <div class='search-by-email-form'>
     <%= form_with url: '/zendesk/users/search_results', method: 'get', local: true do |form| %>
       <div class='row'>
         <div class='col-sm-10'>
+          <%= form.hidden_field :email_searched, value: 'submitted' %>
           <%= form.text_field :search, placeholder: 'user@example.com', class: 'input-form' %>
         </div>
         <div class='col-sm-2'>
