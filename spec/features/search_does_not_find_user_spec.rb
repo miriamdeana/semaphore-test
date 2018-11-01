@@ -14,7 +14,7 @@ describe 'caller does not exist as a user in Zendesk' do
   )}
 
   context 'call comes in and is answered by the agent' do
-    it 'does not allow agent to create new ticket', js: true do
+    it 'does not allow agent to create new ticket if caller is not found', js: true do
       update_call
       expect(page).not_to have_content('create a new ticket')
     end

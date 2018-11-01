@@ -1,13 +1,20 @@
 <div class='container'>
-  <h1><%= @name %></h1>
-  <p>
-    <b>User Email:</b> <%= @email %><br>
-    <b>Calling from:</b> <%= @number %><br>
-  </p>
 
-  <h2>Create New Ticket</h2>
+  <% if @id %>
+    <table class='table existing-tickets'>
+      <tr class='info note'>
+        <td style="vertical-align: middle; text-align: center;">
+          Is <b><%= @name %></b> calling about an
+          <b><%= link_to 'existing Zendesk ticket', "https://callrail1472494564.zendesk.com/agent/users/#{@id}/tickets", target: '_blank' %>?</b>
+        </td>
+      </tr>
+    </table>
+  <% end %>
 
+  <h1>Create New Ticket</h1>
+  <p>Verify the caller's <b>name</b>, <b>email</b>, and <b>phone number</b>.</p>
   <%= form_with url: '/zendesk/tickets/create', method: 'post', class: 'form-horizontal', local: true do |form| %>
+      <%= render :partial => @partial, :locals => {:form => form} %>
     <div class='form-group'>
       <%= form.label :subject, class: 'col-sm-2 control-label' %>
       <div class='col-sm-10'>
@@ -17,7 +24,7 @@
     <div class='form-group'>
       <%= form.label :description, class: 'col-sm-2 control-label' %>
       <div class='col-sm-10'>
-        <%= form.text_area :description, class: 'form-control', rows: '6' %>
+        <%= form.text_area :description, class: 'form-control', rows: '6', required: true %>
       </div>
     </div>
     <%= form.submit 'Create New Ticket', name: nil, class: 'btn btn-primary', style: 'float: right;'%>
