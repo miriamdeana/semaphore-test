@@ -9,9 +9,13 @@ describe 'Tickets' do
   let(:create_ticket) { post zendesk_tickets_create_url,
     :params => {
       :subject => 'Phone Call Ticket',
-      :comment => { :value => 'Description of call.' },
-      :requester_id => 370404079212,
-      :submitter_id => 370404079212
+      :submitter_id => 370404079212,
+      :tags=> ["inboundcallticket"],
+      :comment => { :value => 'Description of call.', :public => false },
+      :requester => { :name => "Mr Customer",
+                      :email => "customer@example.com",
+                      :phone => '555-555-5555'
+                    }
     }
   }
 
