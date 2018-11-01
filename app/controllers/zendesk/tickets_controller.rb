@@ -16,7 +16,6 @@ class Zendesk::TicketsController < ApplicationController
     phone = params[:phone]
     description = params[:description]
 
-
     @ticket = Zendesk.client.tickets.create(:subject => "CTI Phone Call Ticket",
       :requester => { :name => name, :email => email, :phone => phone }, :tags=> ["inboundcallticket"],
       :comment => { :value => description, :public => false },
