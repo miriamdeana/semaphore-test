@@ -1,6 +1,6 @@
 App.calls = App.cable.subscriptions.create('CallChannel', {
   connected: function() {
-    $('body').addClass('channelConnect')
+    $('body').addClass('callChannelConnect')
   },
 
   disconnected: function() {
