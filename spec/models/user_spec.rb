@@ -19,5 +19,11 @@ RSpec.describe User do
       user2 = build(:user, email: user.email)
       expect(user2).to be_invalid
     end
+
+    it 'should have a unique submitter_id' do
+      user.update_attributes!(submitter_id: 123456789)
+      user2 = build(:user, email: 'user2@callrail.com', submitter_id: user.submitter_id)
+      expect(user2).to be_invalid
+    end
   end
 end
