@@ -2,47 +2,33 @@
   <% if @users_found.empty? %>
     <h1>No users with <%= @search_param %></h1>
   <% else %>
-      <h1>Users with <%= @search_param %></h1>
-      <table class='table table-striped'>
-        <thead>
+    <h1>Users with <%= @search_param %></h1>
+    <p>Verify the caller's <b>name</b>, <b>email</b>, and <b>phone number</b></p>
+    <table class='table table-striped'>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users_found.each do |user| %>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
+            <td>
+              <%= link_to user['name'], zendesk_tickets_new_path(
+                :id => user['id'],
+                :name => user['name'],
+                :email => user['email']
+              ) %>
+            </td>
+            <td><%= user['email'] %></td>
+            <td><%= user['phone'] %></td>
           </tr>
-        </thead>
-        <tbody>
-          <% @users_found.each do |user| %>
-            <tr>
-              <td>
-                <%= link_to user['name'], zendesk_tickets_new_path(
-                  :id => user['id'],
-                  :name => user['name'],
-                  :email => user['email']
-                ) %>
-              </td>
-              <td><%= user['email'] %></td>
-              <td><%= user['phone'] %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-  <% end %>
-
-  <table class='table'>
-    <tr class='info note'>
-      <td class='text-center'>
-        <% if params[:email_searched] == 'submitted' %>
-          Caller still not found?
-          <strong>
-            <%= link_to 'Create a new ticket', zendesk_tickets_new_path(:email => @search_param) %>
-           </strong>
-        <% else %>
-          If the caller you're looking for is not listed on this page, use the search bar below to look up a user by email
         <% end %>
-      </td>
-    </tr>
-  </table>
+      </tbody>
+    </table>
+  <% end %>
 
   <div class='search-by-email-form'>
     <%= form_with url: '/zendesk/users/search_results', method: 'get', local: true do |form| %>
