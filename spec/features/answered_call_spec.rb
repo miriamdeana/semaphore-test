@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CallChannel do
+describe 'answered call' do
   before(:each) do
     stub_request(:get, %r{/api/v2/users/search}).
          to_return(status: 200, body: '', headers: {})
