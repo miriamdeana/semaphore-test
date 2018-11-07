@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  validates_uniqueness_of :submitter_id, allow_nil: true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable 
   devise :database_authenticatable, #:registerable,
