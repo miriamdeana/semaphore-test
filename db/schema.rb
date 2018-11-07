@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2018_11_05_145906) do
     t.text "image"
     t.string "first_name"
     t.string "last_name"
-    t.integer "submitter_id"
+    t.bigint "submitter_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["submitter_id"], name: "index_users_on_submitter_id", unique: true
