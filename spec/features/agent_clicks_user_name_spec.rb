@@ -14,7 +14,7 @@ require 'rails_helper'
     expect(page).to have_field('phone', with: '555-555-5555', readonly: true)
     expect(page).to have_field('subject', with: 'Phone Call Ticket', readonly: true)
     expect(page).to have_field('description')
-    expect(page).to have_link('existing Zendesk tickets')
+    expect(page).to have_link('existing Zendesk ticket')
     expect(page).to have_button('Create New Ticket')
   end
 end
