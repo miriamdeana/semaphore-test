@@ -13,14 +13,22 @@ class Zendesk::TicketsController < ApplicationController
   end
 
   def create
+    id = params[:id]
     name = params[:name]
     email = params[:email]
     phone = params[:phone]
     description = params[:description]
 
+    update_phone_number(id, phone) unless id.nil?
+
     @ticket = Zendesk.client.tickets.create(:subject => "CTI Phone Call Ticket",
       :requester => { :name => name, :email => email, :phone => phone }, :tags=> ["inboundcallticket"],
       :comment => { :value => description, :public => false },
       :submitter_id => 370404079212, :status => "open")
+  end
+
+  private
+  def update_phone_number(id, phone)
+    ZendeskUpdateUserWorker.perform_async(id, phone)
   end
 end
