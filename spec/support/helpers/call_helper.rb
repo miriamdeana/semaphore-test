@@ -2,7 +2,7 @@ module CallHelper
   def update_call
     login_as user
     visit root_path
-    page.find('.channelConnect')
+    page.find('.callChannelConnect')
     call.update_attributes!(answered: 'true', agent_email: 'user@callrail.com')
   end
 end
