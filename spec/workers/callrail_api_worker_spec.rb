@@ -33,6 +33,7 @@ RSpec.describe CallrailApiWorker do
 
   let(:worker) { CallrailApiWorker.new }
   let!(:call) { Call.create!(callrail_id: 1234) }
+  let!(:user) { FactoryBot.create(:user) }
 
   def stub_worker
     allow(worker).to receive(:ping_api).and_return(subject)
@@ -112,6 +113,17 @@ RSpec.describe CallrailApiWorker do
       call.reload
       expect(call.answered).to eq("true")
       expect(call.agent_email).to eq("user@callrail.com")
+    end
+  end
+
+  context 'first call answered by agent' do
+    let(:answered) { true }
+    let(:tags) { [{"name"=>"Support"}] }
+    let(:agent_email) { "user@callrail.com" }
+
+    it 'should call ZendeskAgentWorker when submitter_id is nil' do
+      stub_worker
+      expect { worker.perform(1234) }.to change(ZendeskAgentWorker.jobs, :size).by(1)
     end
   end
 end
