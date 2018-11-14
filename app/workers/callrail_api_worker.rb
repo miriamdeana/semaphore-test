@@ -9,6 +9,7 @@ class CallrailApiWorker
     tags = api["tags"]
     answered = api["answered"]
     start_time = api["start_time"].to_datetime
+    agent_email = api["agent_email"]
     call = Call.find_by(callrail_id: callrail_id)
 
     if Time.now.iso8601 < start_time + 2.minutes
@@ -19,7 +20,9 @@ class CallrailApiWorker
 
       elsif tags.any? {|x| x["name"] == "Support"}
         if answered
-          call.update_attributes!(answered: "true", agent_email: api["agent_email"])
+          call.update_attributes!(answered: "true", agent_email: agent_email)
+          user = User.find_by(email: call.agent_email)
+          ZendeskAgentWorker.perform_async(call.agent_email) if user.submitter_id.nil?
         elsif answered.nil?
           CallrailApiWorker.perform_in(5.seconds, callrail_id)
         end
