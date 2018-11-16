@@ -10,6 +10,7 @@ fail() {
 
 if [ -x "$(command -v secretmgmt)" ] ; then
   configmgmt export-context --context cti_development > config/secrets.env
+  cp config/secrets.env config/secrets.env.test
 else
   echo "Configmgmt is not installed. Please follow install instructions at https://github.com/callrail/configmgmt then re-run this script." && exit 1
 fi
@@ -19,14 +20,14 @@ echo "${PURPLE}Installing gems and Node packages...${NC}"
 gem install bundler --conservative
 bundle install
 
-# ensure redis and postgres are running
-echo "${PURPLE}Ensuring Redis and Postgres are running...${NC}"
+# ensure sidekiq, redis, and postgres are running
+echo "${PURPLE}Ensuring Sidekiq, Redis, and Postgres are running...${NC}"
 [ -z "$(pgrep redis)" ] && redis-server &
+[ -z "$(pgrep sidekiq)" ] && bundle exec sidekiq &
 [ -z "$(pgrep postgres)" ] && pg_ctl start -D /usr/local/var/postgresql@9.5 -l /usr/local/var/postgresql@9.5/server.log
 
 
 # db setup
-bundle exec rake db:create
 bundle exec rake db:reset
 
 bin/rails log:clear tmp:clear
